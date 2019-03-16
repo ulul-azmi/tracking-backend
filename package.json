@@ -1,0 +1,24 @@
+{
+  "name": "ulul-azmi",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Semmi Verian <semmivp1@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "NODE_ENV=test mocha --exit",
+    "test:watch": "NODE_ENV=test mocha --watch"
+  },
+  "dependencies": {
+    "bcrypt": "3.0.4",
+    "express": "4.16.4",
+    "jsonwebtoken": "8.5.0",
+    "mongoose": "5.4.19"
+  },
+  "devDependencies": {
+    "chai": "4.2.0",
+    "chai-http": "4.2.1",
+    "dotenv": "7.0.0"
+  }
+}
