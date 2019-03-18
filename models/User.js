@@ -1,55 +1,63 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
-const { generate } = require('../helpers/password')
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
+const { generate } = require('../helpers/password');
 
 const userSchema = new Schema({
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   role: {
     type: String,
-    default: 'member'
+    default: 'member',
   },
   profilePicture: {
     type: String,
-    required: true
+    required: true,
   },
   name: {
     type: String,
-    required: true
+    required: true,
   },
   phoneNumber: {
     type: String,
-    required: true
+    required: true,
   },
   instagram: {
-    type: String
-  }
-})
+    type: String,
+  },
+});
 
-userSchema.pre('save', function (next) {
-  this.password = generate(this.password)
-  next()
-})
+userSchema.pre('save', function(next) {
+  this.password = generate(this.password);
+  next();
+});
 
-const User = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema);
 
+User.fillable = [
+  'email',
+  'password',
+  'role',
+  'profilePicture',
+  'name',
+  'phoneNumber',
+  'instagram',
+];
 
-User.fillable = ['email', 'password', 'role', 'profilePicture', 'name', 'phoneNumber', 'instagram']
-
-User.firstOrCreate = async function (condition, data) {
-  const exist = await this.findOne(condition)
+User.firstOrCreate = async function(condition, data) {
+  const exist = await this.findOne(condition);
 
   if (exist) {
-    return exist
+    return exist;
   }
-  return await this.create(data)
-}
+  return await this.create(data);
+};
 
-module.exports = User
+module.exports = User;

@@ -1,64 +1,67 @@
-const { verify } = require('../helpers/jwt')
-const User = require('../models/User')
-const { filter } = require('../helpers/filter')
+const { verify } = require('../helpers/jwt');
+const User = require('../models/User');
+const { filter } = require('../helpers/filter');
 
 module.exports = {
   authentication(req, res, next) {
     try {
-      const data = verify(req.headers.token)
-      req.user = data
-      next()
+      const data = verify(req.headers.token);
+      req.user = data;
+      next();
     } catch (err) {
       res.status(401).json({
-        message: 'unauthorized'
-      })
+        message: 'unauthorized',
+      });
     }
   },
 
   async firstOrCreate(req, res, next) {
     try {
       if (req.headers.token) {
-        const data = verify(req.headers.token)
-        req.user = data
-        req.fromGuest = false
-        next()
-        return
+        const data = verify(req.headers.token);
+        req.user = data;
+        req.fromGuest = false;
+        next();
+        return;
       }
 
-      const user = await User.firstOrCreate({ email: req.body.user.email }, filter(User, req.body.user))
-      req.user = user.toObject()
-      req.fromGuest = true
+      const user = await User.firstOrCreate(
+        { email: req.body.user.email },
+        filter(User, req.body.user)
+      );
+      req.user = user.toObject();
+      req.fromGuest = true;
 
-      next()
+      next();
     } catch (err) {
-      console.log(err)
+      console.log(err);
       res.status(401).json({
-        message: 'unauthorized'
-      })
+        message: 'unauthorized',
+      });
     }
   },
 
   async onlyAdmin(req, res, next) {
     if (req.user.role === 'admin') {
-      next()
+      next();
     } else {
       res.status(401).json({
-        message: 'unauthorized'
-      })
+        message: 'unauthorized',
+      });
     }
   },
 
   async adminPrivilege(req, res, next) {
     try {
       if (req.headers.token) {
-        const data = verify(req.headers.token)
-        req.isAdmin = data.role === 'admin'
+        const data = verify(req.headers.token);
+        req.isAdmin = data.role === 'admin';
       }
-      next()
+      next();
     } catch (err) {
-      console.log(err)
-      req.isAdmin = false
-      next()
+      console.log(err);
+      req.isAdmin = false;
+      next();
     }
-  }
-}
+  },
+};

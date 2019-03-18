@@ -1,33 +1,37 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
 
-const incomeSchema = new Schema({
-  userId: { type: Schema.Types.ObjectId, ref: 'User' },
-  destination: {
-    type: String,
-    required: true
-  },
-  image: {
-    type: String,
-    required: true
-  },
-  amount: {
-    type: Number,
-    required: true
-  },
-  status: {
-    type: String,
-    default: 'pending'
-  },
-  date: {
-    type: Date,
-    required: true
-  },
-  meta: {}
-}, { timestamps: true })
+const { Schema } = mongoose;
 
-const Income = mongoose.model('Income', incomeSchema)
+const incomeSchema = new Schema(
+  {
+    userId: { type: Schema.Types.ObjectId, ref: 'User' },
+    destination: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+    },
+    status: {
+      type: String,
+      default: 'pending',
+    },
+    date: {
+      type: Date,
+      required: true,
+    },
+    meta: {},
+  },
+  { timestamps: true }
+);
 
-Income.fillable = ['userId', 'destination', 'image', 'amount', 'date', 'meta']
+const Income = mongoose.model('Income', incomeSchema);
 
-module.exports = Income
+Income.fillable = ['userId', 'destination', 'image', 'amount', 'date', 'meta'];
+
+module.exports = Income;

@@ -6,19 +6,19 @@ module.exports = {
         data: {
           errors: Object.entries(err.errors).reduce((carry, [key, value]) => {
             carry[key] = {
-              message: value.message
-            }
-            return carry
-          }, {})
-        }
-      }
+              message: value.message,
+            };
+            return carry;
+          }, {}),
+        },
+      };
     }
 
     return {
       status: 500,
       data: {
-        msg: err.message
-      }
-    }
-  }
-}
+        msg: err.message,
+      },
+    };
+  },
+};
