@@ -46,5 +46,19 @@ module.exports = {
         message: 'unauthorized'
       })
     }
+  },
+
+  async adminPrivilege(req, res, next) {
+    try {
+      if (req.headers.token) {
+        const data = verify(req.headers.token)
+        req.isAdmin = data.role === 'admin'
+      }
+      next()
+    } catch (err) {
+      console.log(err)
+      req.isAdmin = false
+      next()
+    }
   }
 }

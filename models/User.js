@@ -38,7 +38,7 @@ userSchema.pre('save', function (next) {
   next()
 })
 
-const User = mongoose.model('user', userSchema)
+const User = mongoose.model('User', userSchema)
 
 
 User.fillable = ['email', 'password', 'role', 'profilePicture', 'name', 'phoneNumber', 'instagram']

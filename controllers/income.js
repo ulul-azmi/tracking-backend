@@ -14,7 +14,7 @@ module.exports = {
       const income = await Income.create(filteredData)
 
       res.status(201).json(income)
-    } catch (err) {
+    } catch (error) {
       res.status(500).json({
         message: error.message
       })
@@ -37,7 +37,7 @@ module.exports = {
         })
 
       res.status(200).json(result)
-    } catch (err) {
+    } catch (error) {
       res.status(500).json({
         message: error.message
       })
@@ -53,10 +53,15 @@ module.exports = {
         incomesBuilder.limit(Number(req.query.limit))
       }
 
-      const incomes = await incomesBuilder.exec()
+      const incomes = await incomesBuilder.populate('userId').lean().exec()
+      const mapIncomes = incomes.map(income => ({
+        ...income,
+        userId: !req.isAdmin && income.meta.anonymous ? income.userId._id : income.userId
+      }))
 
-      res.status(200).json(incomes)
-    } catch (err) {
+      res.status(200).json(mapIncomes)
+    } catch (error) {
+      console.log(error)
       res.status(500).json({
         message: error.message
       })
@@ -76,8 +81,8 @@ module.exports = {
       res.status(404).json({
         message: 'invalid id'
       })
-    } catch (err) {
-      console.log(err)
+    } catch (error) {
+      console.log(error)
 
       res.status(500).json({
         message: error.message

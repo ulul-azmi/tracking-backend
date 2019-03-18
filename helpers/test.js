@@ -11,6 +11,7 @@ const generatedUser = {
   instagram: '@semmiverian'
 }
 
+const date = Date.now()
 
 module.exports = {
   isTesting() {
@@ -33,7 +34,7 @@ module.exports = {
     return { token: sign(user.toObject()), user }
   },
 
-  async dummyIncome() {
+  async dummyIncome(userId) {
     const tenThousand = 10000
     const twentyThousand = 20000
 
@@ -46,7 +47,9 @@ module.exports = {
         anonymous: false,
         charity: false
       },
-      status: 'done'
+      status: 'done',
+      userId,
+      updatedAt: date
     },
     {
       destination: 'BSM',
@@ -57,7 +60,9 @@ module.exports = {
         anonymous: true,
         charity: true
       },
-      status: 'done'
+      status: 'done',
+      userId,
+      updatedAt: date
     },
     {
       destination: 'BSM',
@@ -68,7 +73,9 @@ module.exports = {
         anonymous: true,
         charity: false
       },
-      status: 'done'
+      status: 'done',
+      userId,
+      updatedAt: date
     },
     {
       destination: 'BSM',
@@ -78,7 +85,9 @@ module.exports = {
       meta: {
         anonymous: true,
         charity: false
-      }
+      },
+      userId,
+      updatedAt: date
     },
     {
       destination: 'BSM',
@@ -88,7 +97,9 @@ module.exports = {
       meta: {
         anonymous: true,
         charity: false
-      }
+      },
+      userId,
+      updatedAt: date
     }
     ]
 

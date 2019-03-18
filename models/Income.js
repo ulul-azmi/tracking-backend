@@ -26,7 +26,7 @@ const incomeSchema = new Schema({
   meta: {}
 }, { timestamps: true })
 
-const Income = mongoose.model('income', incomeSchema)
+const Income = mongoose.model('Income', incomeSchema)
 
 Income.fillable = ['userId', 'destination', 'image', 'amount', 'date', 'meta']
 

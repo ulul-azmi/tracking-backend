@@ -12,6 +12,8 @@ describe('Income Report', () => {
   let user
   let invalidUserToken = 'asdasdasdsa'
   const tenThousand = 10000
+  let adminToken = null
+
   const incomeReport = {
     destination: 'BSM',
     image: '/',
@@ -29,6 +31,8 @@ describe('Income Report', () => {
     const response = await login()
     userToken = response.token
     user = response.user
+    let { token } = await createAdmin()
+    adminToken = token
   })
 
   after(async () => {
@@ -140,7 +144,7 @@ describe('Income Report', () => {
 
     beforeEach(async () => {
       await clearIncome()
-      allIncome = await dummyIncome()
+      allIncome = await dummyIncome(user._id)
     })
 
     after(async () => await clearIncome())
@@ -161,18 +165,35 @@ describe('Income Report', () => {
       expect(response).to.have.status(200)
       expect(response.body).to.be.an('array')
       expect(response.body).to.have.length(allIncome.length)
+      expect(response.body[0].userId).to.haveOwnProperty('name')
+      expect(response.body[0].userId.name).to.be.equal('kosasih')
+    });
+
+    it('should unpopulate data for user that choose to be anonymous', async () => {
+      const response = await chai.request(app).get('/incomes?limit=10')
+      const anonymousData = allIncome[2]
+
+      expect(response).to.have.status(200)
+      expect(response.body[2].userId).not.to.be.an('object')
+      expect(response.body[2].userId).to.be.equal(user._id.toString())
+      expect(response.body[2].income).to.be.equal(anonymousData.income)
+    });
+
+    it('should show all data when admin visit fetch all data', async () => {
+      console.log(adminToken)
+      const response = await chai.request(app).get('/incomes?limit=10').set('token', adminToken)
+
+      expect(response.body[0].userId).to.be.an('object')
+      expect(response.body[2].userId).to.be.an('object')
     });
   })
 
   describe('Approving pending income report', () => {
-    let adminToken = null
     let allincome = null
 
     before(async () => {
       await clearIncome()
-      allIncome = await dummyIncome()
-      let { token } = await createAdmin()
-      adminToken = token
+      allIncome = await dummyIncome(user._id)
     })
 
     it('every admin can approve any pending request', async () => {
