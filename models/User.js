@@ -19,6 +19,17 @@ const userSchema = new Schema({
   profilePicture: {
     type: String,
     required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  phoneNumber: {
+    type: String,
+    required: true
+  },
+  instagram: {
+    type: String
   }
 })
 
@@ -30,6 +41,6 @@ userSchema.pre('save', function (next) {
 const User = mongoose.model('user', userSchema)
 
 
-User.fillable = ['email', 'password', 'role', 'profilePicture']
+User.fillable = ['email', 'password', 'role', 'profilePicture', 'name', 'phoneNumber', 'instagram']
 
 module.exports = User

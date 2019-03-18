@@ -1,7 +1,7 @@
 const chai = require('chai')
 const expect = chai.expect
 const chaiHttp = require('chai-http')
-const { clearUser } = require('../helpers/test')
+const { clearUser, generateUser } = require('../helpers/test')
 
 const app = require('../app')
 
@@ -12,14 +12,13 @@ describe('User Testing', () => {
     await clearUser()
   })
 
+  after(async () => {
+    await clearUser()
+  })
+
   describe('Every user can register to our application', () => {
     it('should return 201 and create a new data in the database when user register to our application with role member', async () => {
-      const user = {
-        email: 'kosasih@mail.com',
-        password: '123456',
-        profilePicture: '/',
-      }
-
+      const user = generateUser()
       const response = await chai
         .request(app)
         .post('/users/register')
@@ -28,6 +27,10 @@ describe('User Testing', () => {
       expect(response).to.have.status(201)
       expect(response.body).to.be.an('object')
       expect(response.body.email).to.be.equal(user.email)
+      expect(response.body.profilePicture).to.be.equal(user.profilePicture)
+      expect(response.body.name).to.be.equal(user.name)
+      expect(response.body.phoneNumber).to.be.equal(user.phoneNumber)
+      expect(response.body.instagram).to.be.equal(user.instagram)
       expect(response.body.role).to.be.equal('member')
       expect(response.body.password).not.to.be.equal(user.password)
     });

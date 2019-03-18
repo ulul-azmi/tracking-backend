@@ -2,7 +2,7 @@ const chai = require('chai')
 const chaiHttp = require('chai-http')
 const expect = chai.expect
 
-const { clearUser, login, clearIncome, User, dummyIncome, createAdmin } = require('../helpers/test')
+const { clearUser, login, clearIncome, User, dummyIncome, createAdmin, generateUser } = require('../helpers/test')
 const app = require('../app')
 
 chai.use(chaiHttp)
@@ -65,11 +65,7 @@ describe('Income Report', () => {
     it('guest user can create a new income report and make the guest authenticated by creating new data', async () => {
       const withUser = {
         ...incomeReport,
-        user: {
-          email: 'john@mail.com',
-          password: '123456',
-          profilePicture: '/',
-        }
+        user: { ...generateUser(), email: 'john@mail.com' }
       }
       const response = await chai.request(app)
         .post('/incomes')
@@ -214,6 +210,7 @@ describe('Income Report', () => {
       expect(response.body).to.haveOwnProperty('message')
       expect(response.body.message).to.be.equal('invalid id')
     })
+
     it('every admin can reject any pending request', async () => {
       const pendingRequest = allIncome[3]
 
