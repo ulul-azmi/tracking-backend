@@ -40,8 +40,6 @@ describe('User Testing', () => {
         .post('/users/register')
         .send(user)
 
-      console.log(response.body)
-
       expect(response).to.have.status(422)
       expect(response.body).to.haveOwnProperty('errors')
     });

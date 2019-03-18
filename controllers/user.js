@@ -35,13 +35,13 @@ module.exports = {
 
       const userData = {
         userId: user.id,
+        _id: user.id,
         email: user.email,
         role: user.role,
         profilePicture: user.profilePicture
       }
 
-
-      const token = generate(userData)
+      const token = sign(userData)
 
       res.status(200).json({
         token,
