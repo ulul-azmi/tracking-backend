@@ -84,6 +84,24 @@ describe('Income Report', () => {
 
     });
 
+    it('guest user using existing email will use that email as identifier instead of creating new user', async () => {
+      const existingUser = {
+        ...incomeReport,
+        user: { ...generateUser(), email: 'kosasih@mail.com' }
+      }
+
+      const response = await chai.request(app)
+        .post('/incomes')
+        .send(existingUser)
+
+      const findUser = await User.findOne({ email: existingUser.user.email })
+
+      expect(response).to.have.status(201)
+      expect(response.body.meta).to.haveOwnProperty('fromGuest')
+      expect(response.body.userId).to.be.equal(findUser._id.toString())
+      expect(response.body.meta.fromGuest).to.be.true
+    });
+
     it('every user can set anonymous to true if they want', async () => {
       const anonymousUser = {
         ...incomeReport,

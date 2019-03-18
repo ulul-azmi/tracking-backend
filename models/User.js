@@ -43,4 +43,13 @@ const User = mongoose.model('User', userSchema)
 
 User.fillable = ['email', 'password', 'role', 'profilePicture', 'name', 'phoneNumber', 'instagram']
 
+User.firstOrCreate = async function (condition, data) {
+  const exist = await this.findOne(condition)
+
+  if (exist) {
+    return exist
+  }
+  return await this.create(data)
+}
+
 module.exports = User

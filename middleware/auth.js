@@ -25,7 +25,7 @@ module.exports = {
         return
       }
 
-      const user = await User.create(filter(User, req.body.user))
+      const user = await User.firstOrCreate({ email: req.body.user.email }, filter(User, req.body.user))
       req.user = user.toObject()
       req.fromGuest = true
 
