@@ -1,5 +1,14 @@
 {
   "extends": [
     "wesbos"
-  ]
+  ],
+  "rules": {
+    "no-unused-expressions": "off",
+    "no-extra-semi": "error"
+  },
+  "env": {
+    "mocha": true,
+    "commonjs": true,
+    "node": true,
+  }
 }

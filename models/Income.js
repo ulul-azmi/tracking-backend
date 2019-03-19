@@ -5,6 +5,7 @@ const { Schema } = mongoose;
 const incomeSchema = new Schema(
   {
     userId: { type: Schema.Types.ObjectId, ref: 'User' },
+    approvedBy: { type: Schema.Types.ObjectId, ref: 'User' },
     destination: {
       type: String,
       required: true,
@@ -32,6 +33,14 @@ const incomeSchema = new Schema(
 
 const Income = mongoose.model('Income', incomeSchema);
 
-Income.fillable = ['userId', 'destination', 'image', 'amount', 'date', 'meta'];
+Income.fillable = [
+  'userId',
+  'destination',
+  'image',
+  'amount',
+  'date',
+  'meta',
+  'approvedBy',
+];
 
 module.exports = Income;

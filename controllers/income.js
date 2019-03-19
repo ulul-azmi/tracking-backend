@@ -82,9 +82,11 @@ module.exports = {
         req.params.id,
         {
           status: req.body.status,
+          approvedBy: req.user._id,
         },
         { new: true }
       );
+
       if (newIncome) {
         res.status(200).json(newIncome);
         return;

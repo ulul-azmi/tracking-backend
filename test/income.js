@@ -19,6 +19,7 @@ chai.use(chaiHttp);
 describe('Income Report', () => {
   let userToken;
   let user;
+  let admin;
   const invalidUserToken = 'asdasdasdsa';
   const tenThousand = 10000;
   let adminToken = null;
@@ -40,8 +41,9 @@ describe('Income Report', () => {
     const response = await login();
     userToken = response.token;
     user = response.user;
-    const { token } = await createAdmin();
+    const { token, admin: adminData } = await createAdmin();
     adminToken = token;
+    admin = adminData;
   });
 
   after(async () => {
@@ -176,7 +178,7 @@ describe('Income Report', () => {
       allIncome = await dummyIncome(user._id);
     });
 
-    after(async () => await clearIncome());
+    after(async () => clearIncome());
 
     it('should return the correct amount of incomes exclude every 10% for each income that accept charity', async () => {
       const response = await chai.request(app).get('/incomes/summary');
@@ -208,7 +210,6 @@ describe('Income Report', () => {
     });
 
     it('should show all data when admin visit fetch all data', async () => {
-      console.log(adminToken);
       const response = await chai
         .request(app)
         .get('/incomes?limit=10')
@@ -220,7 +221,7 @@ describe('Income Report', () => {
   });
 
   describe('Approving pending income report', () => {
-    const allincome = null;
+    let allIncome = null;
 
     before(async () => {
       await clearIncome();
@@ -240,6 +241,7 @@ describe('Income Report', () => {
       expect(response.body).to.be.an('object');
       expect(response.body.status).to.be.equal('done');
       expect(response.body._id).to.be.equal(pendingRequest._id.toString());
+      expect(response.body.approvedBy).to.be.equal(admin._id.toString());
     });
 
     it('should return 401 when unauthorized user try to approve income request', async () => {
