@@ -18,7 +18,6 @@ chai.use(chaiHttp);
 describe('Expense Testing', () => {
   let admin;
   let adminToken;
-  let user;
   let userToken;
 
   before(async () => {
@@ -28,9 +27,8 @@ describe('Expense Testing', () => {
     adminToken = token;
     admin = adminData;
 
-    const response = await login();
-    userToken = response.token;
-    user = response.user;
+    const { token: serverToken } = await login();
+    userToken = serverToken;
   });
 
   describe('Creating new Expense', () => {

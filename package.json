@@ -21,13 +21,13 @@
     "bcrypt": "3.0.4",
     "express": "4.16.4",
     "jsonwebtoken": "8.5.0",
-    "mongoose": "5.4.19"
+    "mongoose": "5.4.19",
+    "dotenv": "7.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^9.0.0",
     "chai": "4.2.0",
     "chai-http": "4.2.1",
-    "dotenv": "7.0.0",
     "eslint": "^5.14.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^4.1.0",

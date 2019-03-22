@@ -38,9 +38,9 @@ describe('Income Report', () => {
   before(async () => {
     await clearUser();
     await clearIncome();
-    const response = await login();
-    userToken = response.token;
-    user = response.user;
+    const { token: serverToken, user: serverUser } = await login();
+    userToken = serverToken;
+    user = serverUser;
     const { token, admin: adminData } = await createAdmin();
     adminToken = token;
     admin = adminData;

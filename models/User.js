@@ -57,7 +57,7 @@ User.firstOrCreate = async function(condition, data) {
   if (exist) {
     return exist;
   }
-  return await this.create(data);
+  return this.create(data);
 };
 
 module.exports = User;

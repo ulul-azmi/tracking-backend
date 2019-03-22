@@ -22,7 +22,7 @@ module.exports = {
     try {
       const data = await Expense.find({}).exec();
 
-      const summary = data.reduce((carry, item) => (carry += item.amount), 0);
+      const summary = data.reduce((carry, item) => carry + item.amount, 0);
 
       res.status(200).json({ summary });
     } catch (err) {
