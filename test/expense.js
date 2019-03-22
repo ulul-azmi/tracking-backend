@@ -104,15 +104,15 @@ describe('Expense Testing', () => {
   });
 
   describe('Revised income', () => {
-    let allExpense = []
+    let allExpense = [];
 
     before(async () => {
-      await clearExpense()
+      await clearExpense();
       allExpense = await bulkCreateExpense();
     });
 
     it('should return 200 when revised expense', async () => {
-      const [firstExpense] = allExpense
+      const [firstExpense] = allExpense;
 
       const revised = {
         amount: 10000,
@@ -146,7 +146,7 @@ describe('Expense Testing', () => {
         .send(revised)
         .set('token', userToken);
 
-      expect(response).to.have.status(401)
+      expect(response).to.have.status(401);
       expect(response.body).to.haveOwnProperty('message');
       expect(response.body.message).to.be.equal('unauthorized');
     });
