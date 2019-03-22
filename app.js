@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 3000;
 const mongoose = require('mongoose');
 const userRouter = require('./routes/user');
 const incomeRouter = require('./routes/income');
+const expenseRouter = require('./routes/expense');
 
 const state = process.env.NODE_ENV || 'dev';
 mongoose.connect(`mongodb://localhost:27017/ulul-azmi-${state}`, {
@@ -17,6 +18,7 @@ app.use(express.json());
 
 app.use('/users', userRouter);
 app.use('/incomes', incomeRouter);
+app.use('/expenses', expenseRouter);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}!`);

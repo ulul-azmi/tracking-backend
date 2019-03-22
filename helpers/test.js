@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Income = require('../models/Income');
+const Expense = require('../models/Expense');
 const { sign } = require('./jwt');
 
 const generatedUser = {
@@ -9,6 +10,14 @@ const generatedUser = {
   name: 'kosasih',
   phoneNumber: '087888587005',
   instagram: '@semmiverian',
+};
+
+const expense = {
+  name: 'Buying milk tea',
+  amount: 10000,
+  date: '2019-03-22',
+  description: 'lorem ipsum dolor sit amet',
+  pictures: ['/', '/'],
 };
 
 const date = Date.now();
@@ -104,7 +113,7 @@ module.exports = {
       },
     ];
 
-    return await Income.insertMany(incomeReport);
+    return Income.insertMany(incomeReport);
   },
 
   async createAdmin() {
@@ -119,5 +128,41 @@ module.exports = {
 
   generateUser() {
     return generatedUser;
+  },
+
+  dummyExpense() {
+    return expense;
+  },
+
+  async clearExpense() {
+    return Expense.deleteMany({}).exec();
+  },
+
+  async bulkCreateExpense() {
+    const dummies = [
+      {
+        name: 'Buying milk tea',
+        amount: 10000,
+        date: '2019-03-22',
+        description: 'lorem ipsum dolor sit amet',
+        pictures: ['/', '/'],
+      },
+      {
+        name: 'Buying coffee',
+        amount: 20000,
+        date: '2019-03-22',
+        description: 'lorem ipsum dolor sit amet',
+        pictures: ['/', '/'],
+      },
+      {
+        name: 'Buying sandwich',
+        amount: 30000,
+        date: '2019-03-22',
+        description: 'lorem ipsum dolor sit amet',
+        pictures: ['/', '/'],
+      },
+    ];
+
+    return Expense.insertMany(dummies);
   },
 };
