@@ -12,6 +12,7 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true,
+    default: 'ululazmi',
   },
   role: {
     type: String,
@@ -19,7 +20,6 @@ const userSchema = new Schema({
   },
   profilePicture: {
     type: String,
-    required: true,
   },
   name: {
     type: String,
