@@ -12,7 +12,8 @@ const expenseRouter = require('./routes/expense');
 const uploadRouter = require('./routes/upload');
 
 const state = process.env.NODE_ENV || 'dev';
-mongoose.connect(`mongodb://localhost:27017/ulul-azmi-${state}`, {
+const host = process.env.HOST;
+mongoose.connect(`${host}/ulul-azmi-${state}`, {
   useNewUrlParser: true,
 });
 
